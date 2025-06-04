@@ -1,14 +1,9 @@
 import { universityInformation } from "./info.js";
 
-//Function that returns all states without repeating
-const getUniqueStates = (statesArray) => {
-  return [...new Set(statesArray)];
-};
-
 function locationsTransformer(infoUniversity) {
-  const statesArray = infoUniversity.features.map(
-    ({ attributes: { State } }) => State
-  );
+  const states = [...new Set(
+    infoUniversity.features.map(({ attributes: { State } }) => State)
+  )];
 
   const university = infoUniversity.features.map(
     ({ attributes: { University_Chapter, State }, geometry: { x, y } }) => ({
@@ -18,8 +13,6 @@ function locationsTransformer(infoUniversity) {
     })
   );
 
-  const states = getUniqueStates(statesArray);
-
   return { states, university };
 }
 
@@ -27,7 +20,7 @@ const { states, university: universities } = locationsTransformer(
   universityInformation
 );
 
-//Display States in a list
+//Display unique States in a list
 const statesContainer = document.querySelector(".states");
 const ul = document.createElement("ul");
 
